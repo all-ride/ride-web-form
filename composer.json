@@ -1,0 +1,21 @@
+{
+    "name": "pallo/web-form",
+    "description": "Form library integration in the web interface of the Pallo framework",
+    "license": "MIT",
+    "version": "0.1.0",
+    "authors": [
+        {
+            "name": "Joris Vandeweerd",
+            "email": "joris@statik.be"
+        }
+    ],
+    "require": {
+        "pallo/lib-form": ">=0.1.0",
+        "pallo/lib-http": ">=0.2.1"
+    }, 
+    "autoload": {
+        "psr-0": {
+            "pallo\\web\\form\\": ["src/", "test/src/"]
+        }
+    }
+}
