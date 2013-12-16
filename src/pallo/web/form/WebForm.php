@@ -76,11 +76,6 @@ class WebForm extends AbstractComponentForm {
             if ($_FILES) {
                 $data = $this->mergeFiles($data, $_FILES);
             }
-
-            $this->isSubmitted = true;
-            $this->dataNeedsProcessing = true;
-        } else {
-            $this->isSubmitted = false;
         }
 
         $this->buildRows($data);
