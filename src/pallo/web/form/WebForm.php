@@ -76,6 +76,10 @@ class WebForm extends AbstractComponentForm {
             if ($_FILES) {
                 $data = $this->mergeFiles($data, $_FILES);
             }
+
+            if ($data === null) {
+                $data = array();
+            }
         }
 
         $this->buildRows($data);
