@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "pallo/lib-form": ">=0.2.0",
+        "pallo/lib-form": ">=0.3.0",
         "pallo/lib-http": ">=0.2.1"
     }, 
     "autoload": {
