@@ -106,21 +106,19 @@ class WebForm extends AbstractComponentForm {
                     $data[$name] = array();
                 }
 
-                foreach ($value as $fileAttr => $valueValues) {
-                    foreach ($valueValues as $index => $fieldValues) {
-                        foreach ($fieldValues as $fieldName => $fieldValue) {
-                            if ($files[$name]['error'][$index][$fieldName] == UPLOAD_ERR_NO_FILE) {
-                                continue;
-                            }
-
-                            if (isset($data[$name][$index][$fieldName]) && is_string($data[$name][$index][$fieldName])) {
-                                $data[$name][$index][$fieldName] = array(
-                                    'name' => $data[$name][$index][$fieldName],
-                                );
-                            }
-
-                            $data[$name][$index][$fieldName][$fileAttr] = $fieldValue;
+                foreach ($value as $fileAttr => $fileValues) {
+                    foreach ($fileValues as $index => $fileValue) {
+                        if ($files[$name]['error'][$index] == UPLOAD_ERR_NO_FILE) {
+                            continue;
                         }
+
+                        if (isset($data[$name][$fileAttr][$index]) && is_string($data[$name][$fileAttr][$index])) {
+                            $data[$name][$index][$fileAttr] = array(
+                                'name' => $data[$name][$fileAttr][$index],
+                            );
+                        }
+
+                        $data[$name][$index][$fileAttr] = $fileValue;
                     }
                 }
             }
