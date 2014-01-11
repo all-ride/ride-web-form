@@ -72,68 +72,11 @@ class WebForm extends AbstractComponentForm {
             } else {
                 $data = $this->request->getBodyParameters();
             }
-
-            if ($_FILES) {
-                $data = $this->mergeFiles($data, $_FILES);
-            }
-
-            if ($data === null) {
-                $data = array();
-            }
         }
 
         $this->buildRows($data);
 
         return $this;
-    }
-
-    /**
-     * Merge the files array with the data
-     * @param array $data Submitted form data
-     * @param array $files File upload definitions
-     * @return array Provided data with the file uploads merged into
-     */
-    protected function mergeFiles(array $data, array $files) {
-        if (!$files) {
-            return $data;
-        }
-
-        foreach ($files as $name => $value) {
-            if ($this->isFileArray($value)) {
-                $data[$name] = $value;
-            } else {
-                if (!isset($data[$name])) {
-                    $data[$name] = array();
-                }
-
-                foreach ($value as $fileAttr => $fileValues) {
-                    foreach ($fileValues as $index => $fileValue) {
-                        if ($files[$name]['error'][$index] == UPLOAD_ERR_NO_FILE) {
-                            continue;
-                        }
-
-                        if (isset($data[$name][$fileAttr][$index]) && is_string($data[$name][$fileAttr][$index])) {
-                            $data[$name][$index][$fileAttr] = array(
-                                'name' => $data[$name][$fileAttr][$index],
-                            );
-                        }
-
-                        $data[$name][$index][$fileAttr] = $fileValue;
-                    }
-                }
-            }
-        }
-
-        return $data;
-    }
-
-    /**
-     * Checks if the provided array is a file upload array
-     * @param array $data
-     * @return boolean
-     */
-    protected function isFileArray($data) {
-        return is_array($data) && isset($data['name']) && !is_array($data['name']) && isset($data['type']) && !is_array($data['type']) && isset($data['tmp_name']) && !is_array($data['type']);
     }
 
 }
