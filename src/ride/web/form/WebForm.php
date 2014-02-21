@@ -1,10 +1,10 @@
 <?php
 
-namespace pallo\web\form;
+namespace ride\web\form;
 
-use pallo\library\form\exception\FormException;
-use pallo\library\form\AbstractComponentForm;
-use pallo\library\http\Request;
+use ride\library\form\exception\FormException;
+use ride\library\form\AbstractComponentForm;
+use ride\library\http\Request;
 
 /**
  * Web implementation of a form
@@ -13,7 +13,7 @@ class WebForm extends AbstractComponentForm {
 
     /**
      * Sets the request for the form
-     * @var pallo\library\http\Request
+     * @var ride\library\http\Request
      */
     protected $request;
 
@@ -25,7 +25,7 @@ class WebForm extends AbstractComponentForm {
 
     /**
      * Sets the request
-     * @param pallo\library\http\Request $request
+     * @param ride\library\http\Request $request
      * @param string $method
      * @return null
      */
@@ -36,7 +36,7 @@ class WebForm extends AbstractComponentForm {
 
     /**
      * Gets the request
-     * @return pallo\library\http\Request
+     * @return ride\library\http\Request
      */
     public function getRequest() {
         return $this->request;
@@ -56,7 +56,7 @@ class WebForm extends AbstractComponentForm {
 
     /**
      * Performs the build tasks
-     * @return pallo\library\form\Form
+     * @return ride\library\form\Form
      */
     public function build() {
         if (!$this->request) {
