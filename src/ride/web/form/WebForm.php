@@ -13,7 +13,7 @@ class WebForm extends AbstractComponentForm {
 
     /**
      * Sets the request for the form
-     * @var ride\library\http\Request
+     * @var \ride\library\http\Request
      */
     protected $request;
 
@@ -25,7 +25,7 @@ class WebForm extends AbstractComponentForm {
 
     /**
      * Sets the request
-     * @param ride\library\http\Request $request
+     * @param \ride\library\http\Request $request
      * @param string $method
      * @return null
      */
@@ -36,7 +36,7 @@ class WebForm extends AbstractComponentForm {
 
     /**
      * Gets the request
-     * @return ride\library\http\Request
+     * @return \ride\library\http\Request
      */
     public function getRequest() {
         return $this->request;
@@ -56,7 +56,7 @@ class WebForm extends AbstractComponentForm {
 
     /**
      * Performs the build tasks
-     * @return ride\library\form\Form
+     * @return \ride\library\form\Form
      */
     public function build() {
         if (!$this->request) {
