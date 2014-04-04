@@ -1,0 +1,13 @@
+{
+    "dependencies": [
+        {
+            "interfaces": "ride\\library\\form\\Form",
+            "class": "ride\\web\\form\\WebForm",
+            "id": "web",
+            "calls": [
+                "setRowFactory",
+                "setValidationFactory"
+            ]
+        }
+    ]
+}
