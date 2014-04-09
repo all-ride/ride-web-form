@@ -3,6 +3,7 @@
 namespace ride\web\form;
 
 use ride\library\form\exception\FormException;
+use ride\library\form\row\HtmlRow;
 use ride\library\form\AbstractComponentForm;
 use ride\library\http\Request;
 use ride\library\mvc\view\HtmlView;
@@ -93,6 +94,10 @@ class WebForm extends AbstractComponentForm {
         }
 
         foreach ($this->rows as $row) {
+            if (!$row instanceof HtmlRow) {
+                continue;
+            }
+
             $javascripts = $row->getJavascripts();
             if ($javascripts) {
                 foreach ($javascripts as $javascript) {
