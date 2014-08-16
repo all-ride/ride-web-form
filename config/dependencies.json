@@ -8,6 +8,11 @@
                 "setRowFactory",
                 "setValidationFactory"
             ]
+        },
+        {
+            "interfaces": "ride\\library\\form\\row\\Row",
+            "class": "ride\\web\\form\\row\\AutoCompleteStringRow",
+            "id": "string"
         }
     ]
 }

@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-0": {
-            "ride\\web\\form\\WebForm": ["src/"]
+            "ride\\web\\form\\": ["src/"]
         }
     }
 }
