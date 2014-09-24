@@ -13,6 +13,26 @@
             "interfaces": "ride\\library\\form\\row\\Row",
             "class": "ride\\web\\form\\row\\AutoCompleteStringRow",
             "id": "string"
+        },
+        {
+            "interfaces": ["ride\\library\\form\\component\\Component", "ride\\web\\form\\component\\HoneyPotComponent"],
+            "class": "ride\\web\\form\\component\\HoneyPotComponent",
+            "id": "honeypot",
+            "calls": [
+                {
+                    "method": "setCipher",
+                    "arguments": [
+                        {
+                            "name": "secretKey",
+                            "type": "call",
+                            "properties": {
+                                "interface": "ride\\application\\system\\System",
+                                "method": "getSecretKey"
+                            }
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }
