@@ -8,52 +8,56 @@ Failing to submit the specific input will result in a exception and thus an erro
 
     <?php
 
+    use ride\web\base\controller\AbstractController;
     use ride\web\form\component\HoneyPotComponent;
+    use ride\web\form\exception\HoneyPotException;
 
-    public function mvcAction(HoneyPotComponent $honeyPotComponent) {
-        // retrieve the honeypot through dependency injection,
-        // in this case through the method signature
+    class FooController extends AbstractController {
 
-        // create a form and add your rows
-        $form = $this->createFormBuilder();
-        $form->addRow('name', 'string', array(
-            'filters' => array(
-                'trim' => array(),
-            ),
-            'validators' => array(
-                'required' => array(),
-            ),
-        ));
+        public function indexAction(HoneyPotComponent $honeyPotComponent) {
+            // retrieve the honeypot through dependency injection,
+            // in this case through the method signature
 
-        // add the honeypot component as a "regular" row somewhere in your form
-        $form->addRow('phone', 'component', array(
-            'component' => $honeyPotComponent,
-            'embed' => true,
-        ));
+            // create a form and add your rows
+            $form = $this->createFormBuilder();
+            $form->addRow('name', 'string', array(
+                'filters' => array(
+                    'trim' => array(),
+                ),
+                'validators' => array(
+                    'required' => array(),
+                ),
+            ));
 
-        // build and process your form
-        $form = $form->build();
-        if ($form->isSubmitted()) {
-            try {
-                $form->validate();
+            // add the honeypot component as a "regular" row somewhere in your form
+            $form->addRow('phone', 'component', array(
+                'component' => $honeyPotComponent,
+                'embed' => true,
+            ));
 
-                $data = $form->getData();
+            // build and process your form
+            $form = $form->build();
+            if ($form->isSubmitted()) {
+                try {
+                    $form->validate();
 
-                // data processing
+                    $data = $form->getData();
 
-                return;
-            } catch (ValidationException $exception) {
-                $this->setValidationException($exception, $form);
-            } catch (HoneyPotException $exception) {
-                // catch the honey pot exception to react
-                $this->addError('error.honeypot');
+                    // data processing
+
+                    return;
+                } catch (HoneyPotException $exception) {
+                    // catch the honey pot exception to react
+                    $this->addError('error.honeypot');
+                }
             }
+
+            $view = $this->setTemplateView('my-template', array(
+                'form' => $form->getView(),
+            ));
+
+            // don't forget to process the view, this will add the needed javascript
+            $form->processView($view);
         }
 
-        $view = $this->setTemplateView('my-template', array(
-            'form' => $form->getView(),
-        ));
-
-        // don't forget to process the view, this will add the needed javascript
-        $form->processView($view);
     }

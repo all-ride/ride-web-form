@@ -27,6 +27,18 @@ class HoneyPotComponent extends AbstractHtmlComponent {
     protected $secretKey;
 
     /**
+     * Honeypot data to submit along the form data
+     * @var string
+     */
+    protected $honeyData;
+
+    /**
+     * Instance of the honeypot data row
+     * @var \ride\library\form\row\Row
+     */
+    protected $rowData;
+
+    /**
      * Flag to see if the honey pot has been processed
      * @var boolean
      */
@@ -58,6 +70,8 @@ class HoneyPotComponent extends AbstractHtmlComponent {
      * @return mixed $data
     */
     public function parseGetData(array $data) {
+        $this->rowData->setData($this->honeyData);
+
         if ($this->isProcessed) {
             return array();
         }
@@ -65,31 +79,15 @@ class HoneyPotComponent extends AbstractHtmlComponent {
         $this->isProcessed = true;
 
         if (!isset($data['honeypot-data']) || !isset($data['honeypot-submit'])) {
-            throw new HoneyPotException('no honeypot data received');
+            throw new HoneyPotException('No honeypot data received');
         }
 
         $fieldsString = $this->cipher->decrypt($data['honeypot-data'], $this->secretKey);
-        $fields = explode(',', $fieldsString);
-        $data = explode(',', $data['honeypot-submit']);
-        $dataIndex = 0;
-
-        foreach ($fields as $field) {
-            if (strpos($field, ':') !== false) {
-                list($field, $default) = explode(':', $field);
-
-                if (!isset($data[$dataIndex]) || $data[$dataIndex] != $default) {
-                    throw new HoneyPotException('recieved unexpected data for ' . $field . ': expected ' . $default . ', got ' . (isset($data[$dataIndex]) && $data[$dataIndex] ? $data[$dataIndex] : 'no value'));
-                }
-            } else {
-                if (!isset($data[$dataIndex]) || $data[$dataIndex] !== '') {
-                    throw new HoneyPotException('recieved unexpected data for ' . $field . ': expected no value, got ' . (isset($data[$dataIndex]) && $data[$dataIndex] ? $data[$dataIndex] : 'no value'));
-                }
-            }
-
-            $dataIndex++;
+        if ($fieldsString === $data['honeypot-submit']) {
+            return array();
         }
 
-        return array();
+        throw new HoneyPotException('Recieved unexpected data');
     }
 
     /**
@@ -121,8 +119,10 @@ class HoneyPotComponent extends AbstractHtmlComponent {
             }
         }
 
-        $builder->addRow('honeypot-data', 'hidden', array(
-            'default' => $this->cipher->encrypt(implode(',', $this->fields), $this->secretKey),
+        $this->honeyData = $this->cipher->encrypt(implode(',', $this->fields), $this->secretKey);
+
+        $this->rowData = $builder->addRow('honeypot-data', 'hidden', array(
+            'default' => $this->honeyData,
         ));
         $builder->addRow('honeypot-submit', 'hidden');
     }
