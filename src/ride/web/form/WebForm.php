@@ -75,6 +75,10 @@ class WebForm extends AbstractComponentForm {
             } else {
                 $data = $this->request->getBodyParameters();
             }
+
+            if ($this->action && (!isset($data[self::ROW_ACTION]) || $data[self::ROW_ACTION] != $this->action)) {
+                $data = null;
+            }
         }
 
         $this->buildRows($data);
