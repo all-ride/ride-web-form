@@ -4,6 +4,7 @@ namespace ride\web\form\component;
 
 use ride\library\encryption\cipher\Cipher;
 use ride\library\form\component\AbstractHtmlComponent;
+use ride\library\form\row\AbstractRow;
 use ride\library\form\FormBuilder;
 use ride\library\StringHelper;
 
@@ -39,6 +40,12 @@ class HoneyPotComponent extends AbstractHtmlComponent {
     protected $rowData;
 
     /**
+     * Rows with a default value
+     * @var array
+     */
+    protected $rowsDefault;
+
+    /**
      * Flag to see if the honey pot has been processed
      * @var boolean
      */
@@ -53,6 +60,9 @@ class HoneyPotComponent extends AbstractHtmlComponent {
     public function setCipher(Cipher $cipher, $secretKey) {
         $this->cipher = $cipher;
         $this->secretKey = $secretKey;
+
+        $this->rowData = null;
+        $this->rowsDefault = array();
     }
 
     /**
@@ -70,14 +80,22 @@ class HoneyPotComponent extends AbstractHtmlComponent {
      * @return mixed $data
     */
     public function parseGetData(array $data) {
-        $this->rowData->setData($this->honeyData);
+        // reset form for new submission
+        if ($this->rowData) {
+            $this->rowData->setData($this->honeyData);
+        }
+        foreach ($this->rowsDefault as $row) {
+            $row->setData($row->getOption(AbstractRow::OPTION_DEFAULT));
+        }
 
+        // process the honeypot only once
         if ($this->isProcessed) {
             return array();
         }
 
         $this->isProcessed = true;
 
+        // check submitted honeypot
         if (!isset($data['honeypot-data']) || !isset($data['honeypot-submit'])) {
             throw new HoneyPotException('No honeypot data received');
         }
@@ -153,7 +171,7 @@ class HoneyPotComponent extends AbstractHtmlComponent {
         $fieldName = StringHelper::generate();
         $default = StringHelper::generate();
 
-        $builder->addRow($fieldName, 'string', array(
+        $this->rowsDefault[] = $builder->addRow($fieldName, 'string', array(
             'attributes' => array(
                 'autocomplete' => 'off',
             ),
