@@ -138,11 +138,16 @@ class HoneyPotComponent extends AbstractHtmlComponent {
         }
 
         $this->honeyData = $this->cipher->encrypt(implode(',', $this->fields), $this->secretKey);
+        $this->fingerprint = StringHelper::generate();
 
         $this->rowData = $builder->addRow('honeypot-data', 'hidden', array(
             'default' => $this->honeyData,
         ));
-        $builder->addRow('honeypot-submit', 'hidden');
+        $builder->addRow('honeypot-submit', 'hidden', array(
+            'attributes' => array(
+                'class' => 'honeypot-' . $this->fingerprint,
+            ),
+        ));
     }
 
     /**
@@ -222,10 +227,13 @@ class HoneyPotComponent extends AbstractHtmlComponent {
             $fields[] = $field;
         }
 
-        $options = array('fields' => $fields);
+        $options = array(
+            'fields' => $fields,
+            'submit' => '.honeypot-' . $this->fingerprint,
+        );
         $options = json_encode($options);
 
-        return array("$('form[role=form]').honeyPot(" . $options . ");");
+        return array("$('.honeypot-" . $this->fingerprint . "').closest('form[role=form]').honeyPot(" . $options . ");");
     }
 
 }
