@@ -73,63 +73,20 @@ class AutoCompleteStringRow extends StringRow implements HtmlRow {
     }
 
     /**
-     * Gets all the javascript files which are needed for this row
-     * @return array|null
+     * Creates the widget for this row
+     * @param string $name
+     * @param mixed $default
+     * @param array $attributes
+     * @return \ride\library\form\widget\Widget
      */
-    public function getJavascripts() {
-        if (!$this->autoCompleteUrl) {
-            return array();
+    protected function createWidget($name, $default, array $attributes) {
+        if ($this->autoCompleteUrl) {
+            $attributes['data-autocomplete-url'] = $this->autoCompleteUrl;
+            $attributes['data-autocomplete-minimum'] = $this->autoCompleteMinimum;
+            $attributes['data-autocomplete-type'] = $this->autoCompleteType;
         }
 
-        return array('js/jquery-ui.js');
-    }
-
-    /**
-     * Gets all the inline javascripts which are needed for this row
-     * @return array|null
-    */
-    public function getInlineJavascripts() {
-        if (!$this->autoCompleteUrl) {
-            return array();
-        }
-
-        $script = '$("#' . $this->widget->getId() . '").autocomplete({
-            minLength: ' . $this->autoCompleteMinimum . ',
-            source: function (request, response) {
-                var url = "' . $this->autoCompleteUrl . '";
-                $.ajax({
-                    url: url.replace(new RegExp("%term%", "g"), request.term),
-                    dataType: "json",
-                    success: function (data) {';
-        if ($this->autoCompleteType == 'jsonapi') {
-            $script .= 'response($.map(data.meta.list, function(item) {
-                            return {
-                                label: item,
-                                value: item
-                            }
-                        }));';
-        } else {
-            $script .= 'response($.map(data, function(item) {
-                            return {
-                                label: item,
-                                value: item
-                            }
-                        }));';
-        }
-        $script .= '}
-                });
-            },
-        });';
-
-        return array($script);
-    }
-
-    /**
-     * Gets all the stylesheets which are needed for this row
-     * @return array|null
-     */
-    public function getStyles() {
-        return array();
+        return parent::createWidget($name, $default, $attributes);
     }
 
 }
