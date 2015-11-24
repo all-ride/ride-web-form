@@ -89,4 +89,28 @@ class AutoCompleteStringRow extends StringRow implements HtmlRow {
         return parent::createWidget($name, $default, $attributes);
     }
 
+    /**
+     * Gets all the javascript files which are needed for this row
+     * @return array|null
+     */
+    public function getJavascripts() {
+        return array();
+    }
+
+    /**
+     * Gets all the inline javascripts which are needed for this row
+     * @return array|null
+    */
+    public function getInlineJavascripts() {
+        return array();
+    }
+
+    /**
+     * Gets all the stylesheets which are needed for this row
+     * @return array|null
+     */
+    public function getStyles() {
+        return array();
+    }
+
 }
