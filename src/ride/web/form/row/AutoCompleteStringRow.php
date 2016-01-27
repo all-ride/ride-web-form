@@ -50,7 +50,7 @@ class AutoCompleteStringRow extends StringRow {
         $url = $this->getOption(self::OPTION_AUTO_COMPLETE_URL);
         if ($url) {
             $attributes['data-autocomplete-url'] = $url;
-            $attributes['data-autocomplete-locale'] = $this->getOption(self::OPTION_LOCALE);
+            $attributes['data-autocomplete-locale'] = strtolower(str_replace('_', '-', $this->getOption(self::OPTION_LOCALE)));
             $attributes['data-autocomplete-multiple'] = $this->getOption(self::OPTION_AUTO_COMPLETE_MULTIPLE, false);
             $attributes['data-autocomplete-minimum'] = $this->getOption(self::OPTION_AUTO_COMPLETE_MINIMUM, 2);
             $attributes['data-autocomplete-type'] = $this->getOption(self::OPTION_AUTO_COMPLETE_TYPE, 'json');
