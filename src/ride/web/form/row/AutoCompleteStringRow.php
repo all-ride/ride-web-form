@@ -19,13 +19,13 @@ class AutoCompleteStringRow extends StringRow {
      * Name of the auto complete minimum characters option
      * @var string
      */
-    const OPTION_AUTO_COMPLETE_MINIMUM = 'autocomplete.minimum';
+    const OPTION_AUTO_COMPLETE_MIN_LENGTH = 'autocomplete.min.length';
 
     /**
      * Name of the auto complete multiple option
      * @var string
      */
-    const OPTION_AUTO_COMPLETE_MULTIPLE = 'autocomplete.multiple';
+    const OPTION_AUTO_COMPLETE_MAX_ITEMS = 'autocomplete.max.items';
 
     /**
      * Name of the auto complete type option
@@ -51,8 +51,8 @@ class AutoCompleteStringRow extends StringRow {
         if ($url) {
             $attributes['data-autocomplete-url'] = $url;
             $attributes['data-autocomplete-locale'] = strtolower(str_replace('_', '-', $this->getOption(self::OPTION_LOCALE)));
-            $attributes['data-autocomplete-multiple'] = $this->getOption(self::OPTION_AUTO_COMPLETE_MULTIPLE, false);
-            $attributes['data-autocomplete-minimum'] = $this->getOption(self::OPTION_AUTO_COMPLETE_MINIMUM, 2);
+            $attributes['data-autocomplete-max-items'] = $this->getOption(self::OPTION_AUTO_COMPLETE_MAX_ITEMS, 0);
+            $attributes['data-autocomplete-min-length'] = $this->getOption(self::OPTION_AUTO_COMPLETE_MIN_LENGTH, 2);
             $attributes['data-autocomplete-type'] = $this->getOption(self::OPTION_AUTO_COMPLETE_TYPE, 'json');
         }
 
