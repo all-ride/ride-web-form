@@ -2,7 +2,6 @@
     "name": "ride/web-form",
     "description": "Form library integration in the web interface of the Ride framework",
     "license": "MIT",
-    "version": "0.5.7",
     "authors": [
         {
             "name": "Joris Vandeweerd",
@@ -10,11 +9,13 @@
         }
     ],
     "require": {
-        "ride/app-form": ">=0.2.0",
-        "ride/lib-encryption": ">=0.1.0",
-        "ride/lib-form": ">=0.13.0",
-        "ride/lib-mvc": ">=0.4.0",
-        "ride/lib-http": ">=0.3.0"
+        "ride/app": "^1.0.0",
+        "ride/app-form": "^1.0.0",
+        "ride/lib-common": "^1.0.0",
+        "ride/lib-encryption": "^1.0.0",
+        "ride/lib-form": "^1.0.0",
+        "ride/lib-http": "^1.0.0",
+        "ride/lib-mvc": "^1.0.0"
     },
     "autoload": {
         "psr-0": {
