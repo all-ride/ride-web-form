@@ -75,6 +75,18 @@ class HoneyPotComponent extends AbstractHtmlComponent {
     }
 
     /**
+     * Resets the honeypot after a validation error
+     * @return null
+     */
+    public function resetHoneyPot() {
+        $this->rowData->setData($this->rowData->getOption('default'));
+
+        foreach ($this->rowsDefault as $row) {
+            $row->setData($row->getOption(AbstractRow::OPTION_DEFAULT));
+        }
+    }
+
+    /**
      * Parse the form values to data of the component
      * @param array $data
      * @return mixed $data
