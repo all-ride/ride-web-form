@@ -108,7 +108,7 @@ class HoneyPotComponent extends AbstractHtmlComponent {
         $this->isProcessed = true;
 
         // check submitted honeypot
-        if (!isset($data['honeypot-data']) || !isset($data['honeypot-submit'])) {
+        if (!isset($data['honeypot-submit']) || !isset($data['honeypot-data']) || $data['honeypot-data'] === '') {
             throw new HoneyPotException('No honeypot data received');
         }
 
