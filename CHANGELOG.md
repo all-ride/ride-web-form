@@ -1,5 +1,7 @@
 # Changelog
-
+## [1.2] - 2023-06-05
+### Updated
+- Updated autoCompleteStringRow  to be compatible with ph 8.1
 ## [1.1.1] - 2018-09-25
 ### Updated
 - catch an empty honeypot data submission

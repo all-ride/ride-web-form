@@ -49,8 +49,9 @@ class AutoCompleteStringRow extends StringRow {
     protected function createWidget($name, $default, array $attributes) {
         $url = $this->getOption(self::OPTION_AUTO_COMPLETE_URL);
         if ($url) {
+            $localeOption = $this->getOption(self::OPTION_LOCALE);
             $attributes['data-autocomplete-url'] = $url;
-            $attributes['data-autocomplete-locale'] = strtolower(str_replace('_', '-', $this->getOption(self::OPTION_LOCALE)));
+            $attributes['data-autocomplete-locale'] = $localeOption ? strtolower(str_replace('_', '-', $this->getOption(self::OPTION_LOCALE))) : null;
             $attributes['data-autocomplete-max-items'] = $this->getOption(self::OPTION_AUTO_COMPLETE_MAX_ITEMS, 0);
             $attributes['data-autocomplete-min-length'] = $this->getOption(self::OPTION_AUTO_COMPLETE_MIN_LENGTH, 2);
             $attributes['data-autocomplete-type'] = $this->getOption(self::OPTION_AUTO_COMPLETE_TYPE, 'json');
