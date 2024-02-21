@@ -1,4 +1,7 @@
 # Changelog
+## [1.3] - 2023-02-21
+### Updated
+- Updated Csrf component to actually work when used.
 ## [1.2] - 2023-06-05
 ### Updated
 - Updated autoCompleteStringRow  to be compatible with ph 8.1
