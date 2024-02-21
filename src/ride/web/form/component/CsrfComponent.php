@@ -26,6 +26,8 @@ class CsrfComponent extends AbstractHtmlComponent {
      */
     protected $request;
 
+    protected $isProcessed;
+
     /**
      * Creates a new csrf component
      * @param \ride\library\http\request\Request
@@ -57,9 +59,17 @@ class CsrfComponent extends AbstractHtmlComponent {
      * Parse the form values to data of the component
      * @param array $data
      * @return mixed $data
-    */
+     */
     public function parseGetData(array $data) {
-        if (!isset($data['csrf-token']) || $data['csrf-token'] != $this->getCsrfToken()) {
+
+        // process the honeypot only once
+        if ($this->isProcessed) {
+            return array();
+        }
+
+        $this->isProcessed = true;
+
+        if (!isset($data['csrf-token']) || $data['csrf-token'] !== $this->getCsrfToken()) {
             throw new CsrfException('Invalid CSRF token received');
         }
 
@@ -87,12 +97,11 @@ class CsrfComponent extends AbstractHtmlComponent {
 
         $token = $session->get(self::SESSION_CSRF);
         if (!$token) {
-            $token = StringHelper::generate(20);
+            $token = StringHelper::generate(32);
 
             $session->set(self::SESSION_CSRF, $token);
         }
 
         return $token;
     }
-
 }
